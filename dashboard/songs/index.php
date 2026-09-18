@@ -106,17 +106,17 @@ if($_FILES && $_FILES['filename']['error'] == UPLOAD_ERR_OK) {
 	<div class="form">
     <h1>'.$dl->getLocalizedString("songAdd").'</h1>
     <form class="form__inner" method="post" action="" enctype="multipart/form-data">
-		<p>'.$dl->getLocalizedString("songAddDesc").'</p>
+		<p>After re-uploading music,Enter the gdps and search in the library, enter the TAG of the name of this gdps, then enter the id in search outside the library.</p>
         <div style="width:100%;text-align:center">
           <label for="upload" id="labelupload" class="btn-upload-song">
-          	 <i style="margin:0;font-size: 17" class="fa-solid fa-music icon"></i> 
+          	 <i style="margin:0;font-size: 15;" class="fa-solid fa-music icon"></i> 
               <input id="upload" type="file" name="filename" size="10" accept="audio/mpeg, audio/ogg, audio/mp3">
                   <text style="font-size: 21">
                     <span id="songnamelol">
                         '.$dl->getLocalizedString("chooseFile").'
                     </span>
                   </text>
-             <i style="margin:0;font-size: 17" class="fa-solid fa-music icon fa-flip-horizontal"></i>
+             <i style="margin:0;font-size: 15;" class="fa-solid fa-music icon fa-flip-horizontal"></i>
 		  </label>
 		  <progress id="progress" style="display: none"></progress>
         </div>
