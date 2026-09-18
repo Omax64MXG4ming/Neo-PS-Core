@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 require "../incl/dashboardLib.php";
 require "../".$dbPath."incl/lib/Captcha.php";
 require "../".$dbPath."config/security.php";
@@ -9,8 +10,10 @@ require "../".$dbPath."incl/lib/exploitPatch.php";
 require "../".$dbPath."incl/lib/generatePass.php";
 require "../".$dbPath."incl/lib/automod.php";
 require_once "../".$dbPath."incl/lib/mainLib.php";
+#require  __DIR__. "/../../index/indexLib.php";
 $gs = new mainLib();
 $dl = new dashboardLib();
+# $il = new indexLib();
 $dl->title($dl->getLocalizedString("registerAcc"));
 $dl->printFooter('../');
 if(Automod::isAccountsDisabled(0)) exit($dl->printSong('<div class="form">
@@ -160,6 +163,7 @@ if(!empty($_POST["username"]) AND !empty($_POST["email"]) AND !empty($_POST["rep
 		}
 	}
 }else{
+#  $il->printDashEmail();
 	$dl->printSong('<div class="form">
 		<h1>'.$dl->getLocalizedString("registerAcc").'</h1>
 		<form class="form__inner" method="post" action="">
@@ -168,13 +172,24 @@ if(!empty($_POST["username"]) AND !empty($_POST["email"]) AND !empty($_POST["rep
 			<div class="field"><input type="password" id="registerInput2" name="password" placeholder="'.$dl->getLocalizedString("password").'"></div>
 			<text class="samepass" id="registerText1">'.$dl->getLocalizedString("passDontMatch").'</text>
 			<div class="field"><input type="password" id="registerInput3" name="repeatpassword" placeholder="'.$dl->getLocalizedString("repeatpassword").'"></div>
-			<div class="field"><input type="email" name="email" id="registerInput4" placeholder="'.$dl->getLocalizedString("email").'"></div>
+			<div class="field"><input type="email" name="email" id="registerInput4" placeholder="'.$dl->getLocalizedString("email").'">
+            <h2 style="font-size: 15px; margin-top: 15px;">
+            
+                   
+                  ⚠️ You need a valid email address. I want to avoid future account problems. Then you should go to your email inbox and look for this GDPS registration message. ⚠️
+                   
+                   
+            </h2>
+            </div>
 			<text class="samepass" id="registerText2">'.$dl->getLocalizedString("emailDontMatch").'</text>
 			<div class="field"><input type="email" name="repeatemail" id="registerInput5" placeholder="'.$dl->getLocalizedString("repeatemail").'"></div>
 			'.Captcha::displayCaptcha(true).'
 			<button type="submit" class="btn-song" id="submitRegister">'.$dl->getLocalizedString("register").'</button>
+             
 		</form>
-	</div>');
+	</div>
+  
+   ');
 }
 } else {
 	$dl->printSong('<div class="form">
