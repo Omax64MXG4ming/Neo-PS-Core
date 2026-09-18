@@ -1,9 +1,13 @@
 <?php
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
 require "incl/dashboardLib.php";
 $dl = new dashboardLib();
 require $dbPath."incl/lib/connection.php";
 require $dbPath."incl/lib/mainLib.php";
+include __DIR__."incl/pages/index.html";
 $gs = new mainLib();
 require $dbPath."config/dashboard.php";
 if(!$installed) header('Location: install.php');
@@ -41,14 +45,15 @@ if(empty($name)) {
 					<div style="display: flex;justify-content: space-between;align-items: center;"><h1 class="mainpagecardh1"><i class="fa-solid fa-plus" style="position: absolute;font-size: 15px;margin: 5px 5px 5px -2px;" aria-hidden="false"></i><div class="icon mph1" style="font-size: 25px;height: 50px;width: 50px;"><i class="fa-solid fa-user"></i></div>'.$dl->getLocalizedString("createAcc").'</h1></div>
 					<p class="mpp">'.sprintf($dl->getLocalizedString("registerOptDesc"), $gdps).'</p></div></div></div>
 				</button>
-				<button onclick="download()" style="background:none;border:none;cursor:pointer;width: 100%;padding: 0px;border-radius: 30px;"><div class="lilcard"><div class="lilcardcontent"><div style="margin-right: 10px;">
+                <button onclick="download()" style="background:none;border:none;cursor:pointer;width: 100%;padding: 0px;border-radius: 30px;"><div class="lilcard"><div class="lilcardcontent"><div style="margin-right: 10px;">
 					<div style="display: flex;justify-content: space-between;align-items: center;"><h1 class="mainpagecardh1"><div class="icon mph1" style="font-size: 25px;height: 50px;width: 50px;"><i class="fa-solid fa-download"></i></div>'.$dl->getLocalizedString("download").'</h1></div>
 					<p class="mpp">'.sprintf($dl->getLocalizedString("downloadOptDesc"), $gdps).'</p></div></div></div>
 				</button>
+				
 				<div id="downloadid" style="display:none;font-size: 24px;display: none;grid-gap: 10px;">'.$downloadlinks.'</div>';
 } else {
-	$namebtn = '<button onclick="a(\'profile/'.$name.'\', true, true, \'GET\')" style="padding:0;font-weight: 900;background:none;border:none;cursor:pointer;color:rgb('.$gs->getAccountCommentColor($_SESSION["accountID"]).')">'.$name.'</button>';
-	$accountcards = '<button onclick="a(\'profile/'.$name.'\', true, true, \'GET\')" style="background:none;border:none;cursor:pointer;width: 100%;padding: 0px;border-radius: 30px;"><div class="lilcard"><div class="lilcardcontent"><div style="margin-right: 10px;">
+	$namebtn = '<button onclick="a(\'profile/\', true, true, \'GET\')" style="padding:0;font-weight: 900;background:none;border:none;cursor:pointer;color:rgb('.$gs->getAccountCommentColor($_SESSION["accountID"]).')">'.$name.'</button>';
+	$accountcards = '<button onclick="a(\'profile/\', true, true, \'GET\')" style="background:none;border:none;cursor:pointer;width: 100%;padding: 0px;border-radius: 30px;"><div class="lilcard"><div class="lilcardcontent"><div style="margin-right: 10px;">
 					<div style="display: flex;justify-content: space-between;align-items: center;"><h1 class="mainpagecardh1"><div class="icon mph1" style="font-size: 25px;height: 50px;width: 50px;"><i class="fa-solid fa-dungeon"></i></div>'.$dl->getLocalizedString("yourProfile").'</h1></div>
 					<p class="mpp">'.$dl->getLocalizedString("profileOptDesc").'</p></div></div></div>
 				</button>
@@ -97,6 +102,7 @@ $dl->printSong($install.'<div class="maindiv">
 		</div>
 	</div>
 </div>
+
 <script>
 	function download() {
 		div = document.getElementById("downloadid");
