@@ -1,0 +1,66 @@
+Options -Indexes
+
+RewriteEngine On
+
+
+# ==========================================================
+# MUSIC LIBRARY
+# ==========================================================
+
+# Original Geometry Dash Music Library
+RewriteRule ^database/music/musiclibrary\.dat$ database/music/handler.php?request=musiclibrary.dat [L,QSA]
+
+# Geometry Dash Music Library v02
+RewriteRule ^database/music/musiclibrary_02\.dat$ database/music/handler.php?request=musiclibrary_02.dat [L,QSA]
+
+
+# ==========================================================
+# MUSIC LIBRARY VERSION
+# ==========================================================
+
+# Original version file
+RewriteRule ^database/music/musiclibrary_version\.txt$ database/music/handler.php?request=musiclibrary_version.txt [L,QSA]
+
+# Geometry Dash Music Library v02
+RewriteRule ^database/music/musiclibrary_version_02\.txt$ database/music/handler.php?request=musiclibrary_version_02.txt [L,QSA]
+
+
+# ==========================================================
+# MUSIC FILES
+# ==========================================================
+
+# Official / custom music
+#
+# Examples:
+#
+# /database/music/10013011.ogg
+# /database/music/8013220.ogg
+# /database/music/12345.ogg
+#
+RewriteRule ^database/music/([0-9]+)\.ogg$ database/music/handler.php?request=$1.ogg [L,QSA]
+
+
+# ==========================================================
+# SFX LIBRARY
+# ==========================================================
+
+# SFX Library
+RewriteRule ^database/sfx/sfxlibrary\.dat$ database/sfx/handler.php?request=sfxlibrary.dat [L,QSA]
+
+
+# SFX Library Version
+RewriteRule ^database/sfx/sfxlibrary_version\.txt$ database/sfx/handler.php?request=sfxlibrary_version.txt [L,QSA]
+
+
+# SFX OGG
+#
+# Examples:
+#
+# /database/sfx/s123.ogg
+# /database/sfx/s8000123.ogg
+#
+# Goes to:
+#
+# database/sfx/handler.php?request=s123.ogg
+#
+RewriteRule ^database/sfx/(s[0-9]+)\.ogg$ database/sfx/handler.php?request=$1.ogg [L,QSA]
