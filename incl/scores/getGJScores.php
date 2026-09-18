@@ -13,7 +13,6 @@ $stars = 0;
 $count = 0;
 $xi = 0;
 $lbstring = "";
-$accountID = $gs->getIDFromPost();
 
 $type = ExploitPatch::charclean($_POST["type"]);
 $stat = ExploitPatch::number($_POST["stat"]) ?: 0;
@@ -22,6 +21,7 @@ $leaderboardSortStat = $statTypes[$stat] ?: 'stars';
 
 switch($type) {
 	case 'top':
+   
 		$bans = $gs->getAllBansOfBanType(0);
 		$extIDs = $userIDs = $bannedIPs = [];
 		foreach($bans AS &$ban) {
@@ -41,9 +41,11 @@ switch($type) {
 		$userIDsString = implode("','", $userIDs);
 		$bannedIPsString = implode("|", $bannedIPs);
 		$queryArray = [];
+    
 		if(!empty($extIDsString)) $queryArray[] = "extID NOT IN ('".$extIDsString."')";
 		if(!empty($userIDsString)) $queryArray[] = "userID NOT IN ('".$userIDsString."')";
 		if(!empty($bannedIPsString)) $queryArray[] = "IP NOT REGEXP '".$bannedIPsString."'";
+   
 		$queryText = !empty($queryArray) ? '('.implode(' AND ', $queryArray).') AND' : '';
 		$query = $db->prepare("SELECT * FROM users WHERE ".$queryText." ".$leaderboardSortStat." >= :stat ORDER BY ".$leaderboardSortStat." DESC LIMIT 100");
 		$query->execute([':stat' => $leaderboardMinStars]);
@@ -68,14 +70,19 @@ switch($type) {
 		$userIDsString = implode("','", $userIDs);
 		$bannedIPsString = implode("|", $bannedIPs);
 		$queryArray = [];
+    
 		if(!empty($extIDsString)) $queryArray[] = "extID NOT IN ('".$extIDsString."')";
 		if(!empty($userIDsString)) $queryArray[] = "userID NOT IN ('".$userIDsString."')";
 		if(!empty($bannedIPsString)) $queryArray[] = "IP NOT REGEXP '".$bannedIPsString."'";
+        
 		$queryText = !empty($queryArray) ? '('.implode(' AND ', $queryArray).') AND' : '';
+        
 		$query = $db->prepare("SELECT * FROM users WHERE ".$queryText." creatorPoints > 0 ORDER BY creatorPoints DESC LIMIT 100");
+        
 		$query->execute();
 		break;
 	case 'relative':
+    $accountID = $gs->getIDFromPost();
 		if(!$moderatorsListInGlobal) {
 			$bans = $gs->getAllBansOfBanType(0);
 			$extIDs = $userIDs = $bannedIPs = [];
@@ -132,6 +139,7 @@ switch($type) {
 		}
 		break;
 	case 'friends':
+    $accountID = $gs->getIDFromPost();
 		$query = "SELECT * FROM friendships WHERE person1 = :accountID OR person2 = :accountID";
 		$query = $db->prepare($query);
 		$query->execute([':accountID' => $accountID]);
@@ -146,6 +154,7 @@ switch($type) {
 		$query->execute([':accountID' => $accountID]);
 		break;
 	case 'week':
+   $accountID = $gs->getIDFromPost();
 		$bans = $gs->getAllBansOfBanType(0);
 		$extIDs = $userIDs = $bannedIPs = [];
 		foreach($bans AS &$ban) {
@@ -161,18 +170,22 @@ switch($type) {
 					break;
 			}
 		}
+    
 		$extIDsString = implode("','", $extIDs);
 		$userIDsString = implode("','", $userIDs);
 		$bannedIPsString = implode("|", $bannedIPs);
 		$queryArray = [];
+    
 		if(!empty($extIDsString)) $queryArray[] = "extID NOT IN ('".$extIDsString."')";
 		if(!empty($userIDsString)) $queryArray[] = "userID NOT IN ('".$userIDsString."')";
 		if(!empty($bannedIPsString)) $queryArray[] = "IP NOT REGEXP '".$bannedIPsString."'";
 		$queryText = !empty($queryArray) ? 'AND ('.implode(' AND ', $queryArray).')' : '';
+        
 		$query = $db->prepare("SELECT users.*, SUM(actions.value) AS stars, SUM(actions.value2) AS coins, SUM(actions.value3) AS demons FROM actions INNER JOIN users ON actions.account = users.extID WHERE type = '9' AND timestamp > :time ".$queryText." AND actions.value > 0 GROUP BY (stars) DESC ORDER BY stars DESC LIMIT 100");
 		$query->execute([':time' => time() - 604800]);
 		break;
 }
+
 $result = $query->fetchAll();
 if($type == "relative") {
 	if(!$moderatorsListInGlobal) {
