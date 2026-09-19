@@ -1,5 +1,5 @@
-## This version of core is deprecated
-### [Repository with new GDPS core](https://github.com/MegaSa1nt/GMDprivateServer/tree/new)
+## This version is for Neo PS , Original ⬇️
+### [Repository with GDPS core](https://github.com/MegaSa1nt/GMDprivateServer/tree/master)
 
 # GMDprivateServer
 ## Geometry Dash Private Server
@@ -9,7 +9,7 @@ Supported version of Geometry Dash: 1.0 - 2.208
 
 (See [the backwards compatibility section of this article](https://github.com/Cvolton/GMDprivateServer/wiki/Deliberate-differences-from-real-GD) for more information)
 
-Required version of PHP: 7.0+ (tested up to 8.3)
+Required version of PHP: 7.0+ to 8.5
 
 ### Setup
 1) Upload the files on a webserver
