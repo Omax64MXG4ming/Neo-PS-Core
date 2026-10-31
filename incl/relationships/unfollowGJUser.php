@@ -47,5 +47,5 @@ if ($query->rowCount() > 0) {
     exit("1");
 }
 
-exit("0");
+exit("1");
 ?>
