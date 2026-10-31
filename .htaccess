@@ -2,6 +2,19 @@ Options -Indexes
 
 RewriteEngine On
 
+# Only handle requests to news.dat
+RewriteCond %{REQUEST_URI} ^/database/news/news\.dat$ [NC]
+
+# If the DAT file exists, serve it normally.
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^news\.dat$ - [END]
+
+# If it doesn't exist, run the generator.
+RewriteCond %{REQUEST_URI} ^/database/news/news\.dat$ [NC]
+RewriteRule ^news\.dat$ generateNews.php [END,QSA]
+
+RewriteEngine On
+
 
 # ==========================================================
 # MUSIC LIBRARY
